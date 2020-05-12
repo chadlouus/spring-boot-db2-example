@@ -7,7 +7,7 @@
     <groupId>guru.springframework</groupId>
     <artifactId>spring-boot-db2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>spring-boot-db2</name>
     <description>Demo project for Spring Boot and DB2</description>
@@ -49,8 +49,23 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
+        <!-- <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency> -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <!-- <scope>provided</scope> -->
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -59,6 +74,7 @@
     </dependencies>
 
     <build>
+        <finalName>db2web</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
