@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -63,6 +64,17 @@ public class ProductController {
             String imageUrl = "imageUrl-" + randomInt;
             Product product = new Product(id, description, price, imageUrl);
             productService.saveOrUpdate(product);
+        }
+        return "redirect:/product/list";
+    }
+
+    @RequestMapping("/product/stress/delete/{total}")
+    public String stressDelete(@PathVariable String total, Model model) {
+        int totalNumber = Integer.parseInt(total);
+        List<Product> productList = productService.listAll();
+        for (int i = 0; totalNumber > 0 && i < totalNumber; i++) {
+            Product product = (Product) productList.get(i);
+            productService.delete(Long.valueOf(product.getId()));
         }
         return "redirect:/product/list";
     }
