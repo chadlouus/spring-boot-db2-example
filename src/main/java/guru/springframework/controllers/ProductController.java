@@ -1,10 +1,6 @@
 package guru.springframework.controllers;
 
-import guru.springframework.commands.ProductForm;
-import guru.springframework.converters.ProductToProductForm;
-import guru.springframework.domain.Product;
-import guru.springframework.services.ProductService;
-import guru.springframework.services.StressService;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.validation.Valid;
+import guru.springframework.commands.ProductForm;
+import guru.springframework.converters.ProductToProductForm;
+import guru.springframework.domain.Product;
+import guru.springframework.services.ProductService;
 
 /**
  * Created by jt on 1/10/17.
@@ -22,7 +21,6 @@ import javax.validation.Valid;
 @Controller
 public class ProductController {
     private ProductService productService;
-    private StressService stressService;
 
     private ProductToProductForm productToProductForm;
 
@@ -34,11 +32,6 @@ public class ProductController {
     @Autowired
     public void setProductService(ProductService productService) {
         this.productService = productService;
-    }
-
-    @Autowired
-    public void setStressService(StressService stressService) {
-        this.stressService = stressService;
     }
 
     @RequestMapping("/")
@@ -56,30 +49,6 @@ public class ProductController {
     public String getProduct(@PathVariable String id, Model model){
         model.addAttribute("product", productService.getById(Long.valueOf(id)));
         return "product/show";
-    }
-
-    @RequestMapping("/product/stress/insert/{total}")
-    public String stressInsert(@PathVariable String total, Model model) {
-        stressService.stressInsert(Integer.parseInt(total));
-        return "redirect:/product/list";
-    }
-
-    @RequestMapping("/product/stress/randomget/{total}")
-    public String stressRandomGet(@PathVariable String total) {
-        stressService.stressRandomGet(Integer.parseInt(total));
-        return "redirect:/product/list";
-    }
-
-    @RequestMapping("/product/stress/randomdelete/{total}")
-    public String stressRandomDelete(@PathVariable String total) {
-        stressService.stressRandomDelete(Integer.parseInt(total));
-        return "redirect:/product/list";
-    }
-
-    @RequestMapping("/product/stress/delete/{total}")
-    public String stressDelete(@PathVariable String total, Model model) {
-        stressService.stressDelete(Integer.parseInt(total));
-        return "redirect:/product/list";
     }
 
     @RequestMapping("product/edit/{id}")
