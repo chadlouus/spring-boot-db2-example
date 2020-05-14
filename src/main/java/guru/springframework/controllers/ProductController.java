@@ -64,6 +64,18 @@ public class ProductController {
         return "redirect:/product/list";
     }
 
+    @RequestMapping("/product/stress/randomget/{total}")
+    public String stressRandomGet(@PathVariable String total) {
+        stressService.stressRandomGet(Integer.parseInt(total));
+        return "redirect:/product/list";
+    }
+
+    @RequestMapping("/product/stress/randomdelete/{total}")
+    public String stressRandomDelete(@PathVariable String total) {
+        stressService.stressRandomDelete(Integer.parseInt(total));
+        return "redirect:/product/list";
+    }
+
     @RequestMapping("/product/stress/delete/{total}")
     public String stressDelete(@PathVariable String total, Model model) {
         stressService.stressDelete(Integer.parseInt(total));

@@ -8,4 +8,8 @@ public interface StressService {
     void stressInsert(int total);
 
     void stressDelete(int total);
+
+    void stressRandomGet(int total);
+
+    void stressRandomDelete(int total);
 }

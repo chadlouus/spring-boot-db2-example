@@ -39,6 +39,29 @@ public class StressServiceImpl implements StressService {
             productService.delete(Long.valueOf(product.getId()));
         }
     }
+
+    @Override
+    public void stressRandomGet(int total) {
+        for (int i = 0; i < total; i++) {
+            long randomLong = (long)(Math.random()*1000);
+            Product product = productService.getById(Long.valueOf(randomLong));
+            System.out.println("found product id " + randomLong + " : " + ((product == null)? false: true));
+        }
+    }
+
+    @Override
+    public void stressRandomDelete(int total) {
+        for (int i = 0; i < total; i++) {
+            long randomLong = (long)(Math.random()*1000);
+            try {
+                productService.delete(Long.valueOf(randomLong));
+            }
+            catch (Exception ex) {
+                System.out.println("cannot delete product id: " + randomLong);
+                // ignore
+            }
+        }
+    }
 }
 
 
