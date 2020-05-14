@@ -4,6 +4,8 @@ import guru.springframework.commands.ProductForm;
 import guru.springframework.converters.ProductToProductForm;
 import guru.springframework.domain.Product;
 import guru.springframework.services.ProductService;
+import guru.springframework.services.StressService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -23,6 +22,7 @@ import javax.validation.Valid;
 @Controller
 public class ProductController {
     private ProductService productService;
+    private StressService stressService;
 
     private ProductToProductForm productToProductForm;
 
@@ -34,6 +34,11 @@ public class ProductController {
     @Autowired
     public void setProductService(ProductService productService) {
         this.productService = productService;
+    }
+
+    @Autowired
+    public void setStressService(StressService stressService) {
+        this.stressService = stressService;
     }
 
     @RequestMapping("/")
@@ -55,27 +60,13 @@ public class ProductController {
 
     @RequestMapping("/product/stress/insert/{total}")
     public String stressInsert(@PathVariable String total, Model model) {
-        int totalNumber = Integer.parseInt(total);
-        for (int i = 0; totalNumber > 0 && i < totalNumber; i++) {
-            Long id = null;
-            int randomInt = (int)(Math.random()*100);
-            String description = "des " + randomInt;
-            BigDecimal price = new BigDecimal(randomInt);
-            String imageUrl = "imageUrl-" + randomInt;
-            Product product = new Product(id, description, price, imageUrl);
-            productService.saveOrUpdate(product);
-        }
+        stressService.stressInsert(Integer.parseInt(total));
         return "redirect:/product/list";
     }
 
     @RequestMapping("/product/stress/delete/{total}")
     public String stressDelete(@PathVariable String total, Model model) {
-        int totalNumber = Integer.parseInt(total);
-        List<Product> productList = productService.listAll();
-        for (int i = 0; totalNumber > 0 && i < totalNumber; i++) {
-            Product product = (Product) productList.get(i);
-            productService.delete(Long.valueOf(product.getId()));
-        }
+        stressService.stressDelete(Integer.parseInt(total));
         return "redirect:/product/list";
     }
 
